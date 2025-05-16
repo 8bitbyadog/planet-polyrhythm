@@ -1,4 +1,3 @@
-import React from 'react';
 import PlanetaryPolyrhythm from './PlanetaryPolyrhythm';
 
 function App() {

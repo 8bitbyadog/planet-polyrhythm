@@ -99,7 +99,7 @@ const PlanetaryPolyrhythm = () => {
     if (isPlaying && synth && !isMuted) {
       // Check which planets should play on the current beat
       Object.keys(planetNotes).forEach(planet => {
-        if (currentBeat % rhythmRatios[planet as Planet] === 0) {
+        if (currentBeat % rhythmRatios[planet as Planet] === 0 && planetNotes[planet as Planet]) {
           // Play the note for this planet
           synth.triggerAttackRelease(planetNotes[planet as Planet], "8n");
         }
@@ -223,7 +223,7 @@ const PlanetaryPolyrhythm = () => {
       </div>
       
       <div className="grid grid-cols-1 gap-2">
-        {Object.keys(planetNotes).map(planet => (
+        {Object.keys(planetColors).map(planet => (
           <div key={planet} className="flex flex-col">
             <div className="flex items-center mb-1">
               <div 
@@ -232,7 +232,7 @@ const PlanetaryPolyrhythm = () => {
               ></div>
               <span className="w-16">{planet}</span>
               <span className="text-gray-400 text-xs ml-2">
-                {orbitalPeriods[planet as Planet]} days = {rhythmRatios[planet as Planet]}:1 ratio | Note: {planetNotes[planet as Planet]}
+                {orbitalPeriods[planet as Planet]} days = {rhythmRatios[planet as Planet]}:1 ratio | Note: {planetNotes[planet as Planet] || 'No note assigned'}
               </span>
             </div>
             <div className="flex overflow-x-auto pb-2">

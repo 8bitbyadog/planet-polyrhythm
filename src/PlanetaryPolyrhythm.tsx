@@ -44,7 +44,11 @@ const PlanetaryPolyrhythm = () => {
     Venus: "B4",     // B
     Earth: "D5",     // D
     Mars: "A4",      // A
-    Jupiter: "E5"    // E
+    Jupiter: "E5",   // E
+    Saturn: "G5",    // G (octave higher)
+    Uranus: "B5",    // B (octave higher)
+    Neptune: "D6",   // D (octave higher)
+    Pluto: "A5"      // A (octave higher)
   };
   
   // Colors for each planet
@@ -186,6 +190,10 @@ const PlanetaryPolyrhythm = () => {
             <li>Earth: D note (4:1 rhythm)</li>
             <li>Mars: A note (8:1 rhythm)</li>
             <li>Jupiter: E note (12:1 rhythm)</li>
+            <li>Saturn: G note (16:1 rhythm - octave higher)</li>
+            <li>Uranus: B note (16:1 rhythm - octave higher)</li>
+            <li>Neptune: D note (16:1 rhythm - octave higher)</li>
+            <li>Pluto: A note (16:1 rhythm - octave higher)</li>
           </ul>
           <p className="mt-2">Together, they create a harmonic polyrhythm that represents the cosmic "music of the spheres".</p>
         </div>

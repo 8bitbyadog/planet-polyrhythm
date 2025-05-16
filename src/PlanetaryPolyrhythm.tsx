@@ -66,8 +66,9 @@ const PlanetaryPolyrhythm = () => {
     Pluto: "#8B4513"    // Saddle brown
   };
 
-  // Total cycle length - increased to accommodate the longer ratios for outer planets
-  const cycleLength = 1000;
+  // Total cycle length - reduced for better performance
+  const cycleLength = 200;
+  const visibleBeats = 50; // Number of beats to show at once
   
   // Initialize Tone.js
   useEffect(() => {
@@ -109,18 +110,21 @@ const PlanetaryPolyrhythm = () => {
     }
   }, [currentBeat, isPlaying, synth, isMuted]);
 
-  // Generate rhythm pattern for a planet
-  const generatePattern = (ratio: number) => {
+  // Generate rhythm pattern for a planet - optimized to only generate visible beats
+  const generatePattern = (ratio: number, startBeat: number) => {
     const pattern = [];
-    for (let i = 0; i < cycleLength; i++) {
+    for (let i = startBeat; i < startBeat + visibleBeats; i++) {
       pattern.push(i % ratio === 0);
     }
     return pattern;
   };
 
-  // Calculate patterns for each planet
+  // Calculate visible range of beats
+  const startBeat = Math.max(0, currentBeat - Math.floor(visibleBeats / 2));
+  
+  // Calculate patterns for each planet - only for visible beats
   const patterns = (Object.keys(rhythmRatios) as Planet[]).reduce((acc, planet) => {
-    acc[planet] = generatePattern(rhythmRatios[planet]);
+    acc[planet] = generatePattern(rhythmRatios[planet], startBeat);
     return acc;
   }, {} as Record<Planet, boolean[]>);
 
@@ -238,22 +242,25 @@ const PlanetaryPolyrhythm = () => {
               </span>
             </div>
             <div className="flex overflow-x-auto pb-2">
-              {patterns[planet as Planet].map((active, i) => (
-                <div 
-                  key={i}
-                  className={`w-6 h-6 mx-1 rounded-full flex items-center justify-center transition-all duration-150 ${
-                    i === currentBeat ? 'border-2 border-white' : ''
-                  }`}
-                  style={{
-                    backgroundColor: active 
-                      ? (i === currentBeat ? `${planetColors[planet as Planet]}` : `${planetColors[planet as Planet]}80`) 
-                      : 'transparent',
-                    opacity: active ? 1 : 0.2
-                  }}
-                >
-                  {active && <div className="text-xs">{i+1}</div>}
-                </div>
-              ))}
+              {patterns[planet as Planet].map((active, i) => {
+                const beatNumber = startBeat + i;
+                return (
+                  <div 
+                    key={beatNumber}
+                    className={`w-6 h-6 mx-1 rounded-full flex items-center justify-center transition-all duration-150 ${
+                      beatNumber === currentBeat ? 'border-2 border-white' : ''
+                    }`}
+                    style={{
+                      backgroundColor: active 
+                        ? (beatNumber === currentBeat ? `${planetColors[planet as Planet]}` : `${planetColors[planet as Planet]}80`) 
+                        : 'transparent',
+                      opacity: active ? 1 : 0.2
+                    }}
+                  >
+                    {active && <div className="text-xs">{beatNumber + 1}</div>}
+                  </div>
+                );
+              })}
             </div>
           </div>
         ))}

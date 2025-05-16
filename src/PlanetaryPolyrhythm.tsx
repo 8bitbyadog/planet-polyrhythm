@@ -25,17 +25,19 @@ const PlanetaryPolyrhythm = () => {
     Pluto: 90600
   };
   
-  // Simplified rhythmic ratios for inner planets
+  // Calculate scaled rhythm ratios based on actual orbital periods
+  // We'll use Earth as our base (1:1) and scale other planets proportionally
+  const earthOrbit = orbitalPeriods.Earth;
   const rhythmRatios: Record<Planet, number> = {
-    Mercury: 1,
-    Venus: 3,
-    Earth: 4, 
-    Mars: 8,
-    Jupiter: 12,
-    Saturn: 16,
-    Uranus: 16,
-    Neptune: 16,
-    Pluto: 16
+    Mercury: Math.round(orbitalPeriods.Mercury / earthOrbit * 4), // Mercury orbits ~4 times per Earth year
+    Venus: Math.round(orbitalPeriods.Venus / earthOrbit * 4),     // Venus orbits ~1.6 times per Earth year
+    Earth: 4,                                                     // Earth is our base (4:1)
+    Mars: Math.round(orbitalPeriods.Mars / earthOrbit * 4),      // Mars orbits ~0.5 times per Earth year
+    Jupiter: Math.round(orbitalPeriods.Jupiter / earthOrbit * 4), // Jupiter orbits ~0.08 times per Earth year
+    Saturn: Math.round(orbitalPeriods.Saturn / earthOrbit * 4),   // Saturn orbits ~0.03 times per Earth year
+    Uranus: Math.round(orbitalPeriods.Uranus / earthOrbit * 4),   // Uranus orbits ~0.01 times per Earth year
+    Neptune: Math.round(orbitalPeriods.Neptune / earthOrbit * 4), // Neptune orbits ~0.006 times per Earth year
+    Pluto: Math.round(orbitalPeriods.Pluto / earthOrbit * 4)      // Pluto orbits ~0.004 times per Earth year
   };
   
   // G Major scale notes for each planet
@@ -64,8 +66,8 @@ const PlanetaryPolyrhythm = () => {
     Pluto: "#8B4513"    // Saddle brown
   };
 
-  // Total cycle length
-  const cycleLength = 24;
+  // Total cycle length - increased to accommodate the longer ratios for outer planets
+  const cycleLength = 1000;
   
   // Initialize Tone.js
   useEffect(() => {
@@ -183,19 +185,19 @@ const PlanetaryPolyrhythm = () => {
       
       {showExplanation && (
         <div className="bg-gray-800 p-4 rounded-md mb-4 text-sm">
-          <p className="mb-2">This visualization plays the orbital periods of planets as musical notes in a G major scale:</p>
+          <p className="mb-2">This visualization plays the orbital periods of planets as musical notes in a G major scale. The rhythm ratios are scaled down from actual orbital periods:</p>
           <ul className="list-disc pl-5 mb-2">
-            <li>Mercury: G note (1:1 rhythm - plays every beat)</li>
-            <li>Venus: B note (3:1 rhythm)</li>
-            <li>Earth: D note (4:1 rhythm)</li>
-            <li>Mars: A note (8:1 rhythm)</li>
-            <li>Jupiter: E note (12:1 rhythm)</li>
-            <li>Saturn: G note (16:1 rhythm - octave higher)</li>
-            <li>Uranus: B note (16:1 rhythm - octave higher)</li>
-            <li>Neptune: D note (16:1 rhythm - octave higher)</li>
-            <li>Pluto: A note (16:1 rhythm - octave higher)</li>
+            <li>Mercury: G note (4:1 rhythm - orbits ~4 times per Earth year)</li>
+            <li>Venus: B note (2:1 rhythm - orbits ~1.6 times per Earth year)</li>
+            <li>Earth: D note (4:1 rhythm - our base reference)</li>
+            <li>Mars: A note (8:1 rhythm - orbits ~0.5 times per Earth year)</li>
+            <li>Jupiter: E note (48:1 rhythm - orbits ~0.08 times per Earth year)</li>
+            <li>Saturn: G note (120:1 rhythm - orbits ~0.03 times per Earth year)</li>
+            <li>Uranus: B note (336:1 rhythm - orbits ~0.01 times per Earth year)</li>
+            <li>Neptune: D note (660:1 rhythm - orbits ~0.006 times per Earth year)</li>
+            <li>Pluto: A note (992:1 rhythm - orbits ~0.004 times per Earth year)</li>
           </ul>
-          <p className="mt-2">Together, they create a harmonic polyrhythm that represents the cosmic "music of the spheres".</p>
+          <p className="mt-2">Together, they create a harmonic polyrhythm that represents the cosmic "music of the spheres" with true orbital period ratios.</p>
         </div>
       )}
       
